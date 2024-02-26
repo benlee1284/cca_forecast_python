@@ -17,6 +17,11 @@ class WeatherEntry:
         return 12 <= self.date_.hour < 18
 
 
+class DailyWeatherSummary:
+    def __init__(self) -> None: ...
+
+    def to_dict(self) -> dict: ...
+
 
 def summarize_forecast(data):
     summaries = {}
