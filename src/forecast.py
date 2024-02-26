@@ -94,6 +94,17 @@ def summarize_forecast(data):
     return summaries
 
 
+def parse_weather_entries(data: list[dict]) -> list[WeatherEntry]:
+    return [
+        WeatherEntry(
+            date_time=get_datetime(entry),
+            average_temperature=entry["average_temperature"],
+            probability_of_rain=entry["probability_of_rain"],
+        )
+        for entry in data
+    ]
+
+
 def get_datetime(entry):
     return datetime.fromisoformat(entry.get("date_time").replace("Z", "+00:00"))
 
