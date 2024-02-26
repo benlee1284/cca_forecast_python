@@ -38,7 +38,7 @@ def summarize_forecast(data):
         all_t = [entry["average_temperature"] for entry in entries]
 
         for entry in entries:
-            entry_time = datetime.fromisoformat(entry["date_time"].replace("Z", "+00:00"))
+            entry_time = get_datetime(entry)
             # collect morning period entries
             if 6 <= entry_time.hour < 12:
                 morning_temperature.append(entry["average_temperature"])
@@ -85,6 +85,10 @@ def summarize_forecast(data):
         summaries[day_name] = summary
 
     return summaries
+
+
+def get_datetime(entry):
+    return datetime.fromisoformat(entry["date_time"].replace("Z", "+00:00"))
 
 
 def group_entries_by_day(data):
