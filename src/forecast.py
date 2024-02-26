@@ -55,7 +55,7 @@ def create_summary(entries: list[WeatherEntry]) -> dict:
     afternoon_temperature = []
     afternoon_rain_probability = []
 
-    all_t = [entry.average_temperature for entry in entries]
+    all_temperature_records = [entry.average_temperature for entry in entries]
 
     for entry in entries:
         if entry.is_morning():
@@ -90,8 +90,8 @@ def create_summary(entries: list[WeatherEntry]) -> dict:
                 sum(afternoon_rain_probability) / len(afternoon_rain_probability), 2
             )
         ),
-        "high_temperature": max(all_t),
-        "low_temperature": min(all_t),
+        "high_temperature": max(all_temperature_records),
+        "low_temperature": min(all_temperature_records),
     }
 
 
