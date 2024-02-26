@@ -1,16 +1,15 @@
-from datetime import datetime
+from datetime import date, datetime
 from collections import defaultdict
 
 
 def summarize_forecast(data):
-    grp_day = defaultdict(list)
     summaries = {}
 
     # Group entries by day
+    grp_day = defaultdict(list)
     for entry in data:
-        entry_time = datetime.fromisoformat(entry["date_time"])
-        key = entry_time.date()
-        grp_day[key].append(entry)
+        entry_date = date.fromisoformat(entry["date_time"])
+        grp_day[entry_date].append(entry)
 
     # Process each day
     for day, entries in grp_day.items():
