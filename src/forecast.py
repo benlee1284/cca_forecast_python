@@ -17,7 +17,8 @@ def summarize_forecast(data):
     # Group entries by day
     entries_grouped_by_day = defaultdict(list)
     for entry in data:
-        entry_date = date.fromisoformat(entry["date_time"])
+        entry_datetime = datetime.fromisoformat(entry["date_time"])
+        entry_date = entry_datetime.date()
         entries_grouped_by_day[entry_date].append(entry)
 
     # Process each day
