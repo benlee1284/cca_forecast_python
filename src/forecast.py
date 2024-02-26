@@ -2,6 +2,15 @@ from datetime import date, datetime
 from collections import defaultdict
 
 
+class WeatherEntry:
+    def __init__(
+        self, date_: date, average_temperature: float, probability_of_rain: float
+    ) -> None:
+        self.date_ = date_
+        self.average_temperature = average_temperature
+        self.probability_of_rain = probability_of_rain
+
+
 def summarize_forecast(data):
     summaries = {}
 
