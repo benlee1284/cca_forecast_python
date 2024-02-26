@@ -94,7 +94,7 @@ def get_datetime(entry):
 def group_entries_by_day(data):
     entries_grouped_by_day = defaultdict(list)
     for entry in data:
-        entry_datetime = datetime.fromisoformat(entry["date_time"].replace("Z", "+00:00"))
+        entry_datetime = get_datetime(entry)
         entry_date = entry_datetime.date()
         entries_grouped_by_day[entry_date].append(entry)
 
