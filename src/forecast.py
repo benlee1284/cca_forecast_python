@@ -44,18 +44,18 @@ def summarize_forecast(data):
         afternoon_temperature = []
         afternoon_rain_probability = []
 
-        all_t = [entry.get("average_temperature") for entry in entries]
+        all_t = [entry.average_temperature for entry in entries]
 
         for entry in entries:
-            entry_time = entry.get("date_time")
+            entry_time = entry.date_time
             # collect morning period entries
             if 6 <= entry_time.hour < 12:
-                morning_temperature.append(entry.get("average_temperature"))
-                morning_rain_probability.append(entry.get("probability_of_rain"))
+                morning_temperature.append(entry.average_temperature)
+                morning_rain_probability.append(entry.probability_of_rain)
             # collection afternoon period entries
             elif 12 <= entry_time.hour < 18:
-                afternoon_temperature.append(entry.get("average_temperature"))
-                afternoon_rain_probability.append(entry.get("probability_of_rain"))
+                afternoon_temperature.append(entry.average_temperature)
+                afternoon_rain_probability.append(entry.probability_of_rain)
 
         summary = {
             # if no morning data, report insufficient data
@@ -96,14 +96,14 @@ def summarize_forecast(data):
     return summaries
 
 
-def parse_weather_entries(data: list[dict]) -> list[WeatherEntry]:
+def parse_weather_entries(raw_data: list[dict]) -> list[WeatherEntry]:
     return [
         WeatherEntry(
-            date_time=get_datetime(entry),
-            average_temperature=entry["average_temperature"],
-            probability_of_rain=entry["probability_of_rain"],
+            date_time=get_datetime(raw_entry),
+            average_temperature=raw_entry["average_temperature"],
+            probability_of_rain=raw_entry["probability_of_rain"],
         )
-        for entry in data
+        for raw_entry in raw_data
     ]
 
 
@@ -114,7 +114,7 @@ def get_datetime(entry):
 def group_entries_by_day(weather_entries: list[WeatherEntry]) -> dict[date, list[WeatherEntry]]:
     entries_grouped_by_day = defaultdict(list)
     for entry in weather_entries:
-        entry_datetime = entry.get("date_time")
+        entry_datetime = entry.date_time
         entry_date = entry_datetime.date()
         entries_grouped_by_day[entry_date].append(entry)
 
