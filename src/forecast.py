@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from collections import defaultdict
 from typing import Any
 
@@ -111,9 +111,9 @@ def get_datetime(entry):
     return datetime.fromisoformat(entry.get("date_time").replace("Z", "+00:00"))
 
 
-def group_entries_by_day(data):
+def group_entries_by_day(weather_entries: list[WeatherEntry]) -> dict[date, list[WeatherEntry]]:
     entries_grouped_by_day = defaultdict(list)
-    for entry in data:
+    for entry in weather_entries:
         entry_datetime = entry.get("date_time")
         entry_date = entry_datetime.date()
         entries_grouped_by_day[entry_date].append(entry)
