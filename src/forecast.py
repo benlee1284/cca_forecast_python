@@ -1,10 +1,13 @@
-from datetime import date, datetime
+from datetime import datetime
 from collections import defaultdict
 
 
 class WeatherEntry:
     def __init__(
-        self, date_time: datetime, average_temperature: float, probability_of_rain: float
+        self,
+        date_time: datetime,
+        average_temperature: float,
+        probability_of_rain: float,
     ) -> None:
         self.date_time = date_time
         self.average_temperature = average_temperature
