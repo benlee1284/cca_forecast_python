@@ -58,11 +58,9 @@ def create_summary(entries: list[WeatherEntry]) -> dict:
     all_t = [entry.average_temperature for entry in entries]
 
     for entry in entries:
-        # collect morning period entries
         if entry.is_morning():
             morning_temperature.append(entry.average_temperature)
             morning_rain_probability.append(entry.probability_of_rain)
-        # collection afternoon period entries
         elif entry.is_afternoon():
             afternoon_temperature.append(entry.average_temperature)
             afternoon_rain_probability.append(entry.probability_of_rain)
