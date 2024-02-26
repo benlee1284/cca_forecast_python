@@ -1,5 +1,6 @@
 from datetime import datetime
 from collections import defaultdict
+from typing import Any
 
 
 class WeatherEntry:
@@ -18,6 +19,9 @@ class WeatherEntry:
 
     def is_afternoon(self) -> bool:
         return 12 <= self.date_time.hour < 18
+
+    def get(self, name: str) -> Any:
+        return getattr(self, name)
 
 
 class DailyWeatherSummary:
