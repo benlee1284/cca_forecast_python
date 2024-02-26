@@ -58,13 +58,12 @@ def create_summary(entries: list[WeatherEntry]) -> dict:
     all_t = [entry.average_temperature for entry in entries]
 
     for entry in entries:
-        entry_time = entry.date_time
         # collect morning period entries
-        if 6 <= entry_time.hour < 12:
+        if entry.is_morning():
             morning_temperature.append(entry.average_temperature)
             morning_rain_probability.append(entry.probability_of_rain)
         # collection afternoon period entries
-        elif 12 <= entry_time.hour < 18:
+        elif entry.is_afternoon():
             afternoon_temperature.append(entry.average_temperature)
             afternoon_rain_probability.append(entry.probability_of_rain)
 
@@ -78,9 +77,7 @@ def create_summary(entries: list[WeatherEntry]) -> dict:
         "morning_chance_of_rain": (
             "Insufficient forecast data"
             if not morning_rain_probability
-            else round(
-                sum(morning_rain_probability) / len(morning_rain_probability), 2
-            )
+            else round(sum(morning_rain_probability) / len(morning_rain_probability), 2)
         ),
         # if no afternoon data, report insufficient data
         "afternoon_average_temperature": (
@@ -115,7 +112,9 @@ def get_datetime(entry):
     return datetime.fromisoformat(entry.get("date_time").replace("Z", "+00:00"))
 
 
-def group_entries_by_day(weather_entries: list[WeatherEntry]) -> dict[date, list[WeatherEntry]]:
+def group_entries_by_day(
+    weather_entries: list[WeatherEntry],
+) -> dict[date, list[WeatherEntry]]:
     entries_grouped_by_day = defaultdict(list)
     for entry in weather_entries:
         entry_datetime = entry.date_time
