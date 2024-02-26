@@ -10,6 +10,13 @@ class WeatherEntry:
         self.average_temperature = average_temperature
         self.probability_of_rain = probability_of_rain
 
+    def is_morning(self) -> bool:
+        return 6 <= self.date_.hour < 12
+
+    def is_afternoon(self) -> bool:
+        return 12 <= self.date_.hour < 18
+
+
 
 def summarize_forecast(data):
     summaries = {}
