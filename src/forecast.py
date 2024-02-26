@@ -14,12 +14,7 @@ class WeatherEntry:
 def summarize_forecast(data):
     summaries = {}
 
-    # Group entries by day
-    entries_grouped_by_day = defaultdict(list)
-    for entry in data:
-        entry_datetime = datetime.fromisoformat(entry["date_time"])
-        entry_date = entry_datetime.date()
-        entries_grouped_by_day[entry_date].append(entry)
+    entries_grouped_by_day = group_entries_by_day(data)
 
     # Process each day
     for day, entries in entries_grouped_by_day.items():
@@ -78,3 +73,13 @@ def summarize_forecast(data):
         summaries[day_name] = summary
 
     return summaries
+
+
+def group_entries_by_day(data):
+    entries_grouped_by_day = defaultdict(list)
+    for entry in data:
+        entry_datetime = datetime.fromisoformat(entry["date_time"])
+        entry_date = entry_datetime.date()
+        entries_grouped_by_day[entry_date].append(entry)
+
+    return entries_grouped_by_day
