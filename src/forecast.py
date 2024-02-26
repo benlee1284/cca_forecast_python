@@ -6,49 +6,57 @@ def summarize_forecast(data):
     summaries = {}
 
     # Group entries by day
-    grp_day = defaultdict(list)
+    entries_grouped_by_day = defaultdict(list)
     for entry in data:
         entry_date = date.fromisoformat(entry["date_time"])
-        grp_day[entry_date].append(entry)
+        entries_grouped_by_day[entry_date].append(entry)
 
     # Process each day
-    for day, entries in grp_day.items():
-        morning_t, morning_r, afternoon_t, afternoon_r = [], [], [], []
+    for day, entries in entries_grouped_by_day.items():
+        morning_temperature = []
+        morning_rain_probability = []
+        afternoon_temperature = []
+        afternoon_rain_probability = []
+
         all_t = [entry["average_temperature"] for entry in entries]
 
         for entry in entries:
             entry_time = datetime.fromisoformat(entry["date_time"])
             # collect morning period entries
             if 6 <= entry_time.hour < 12:
-                morning_t.append(entry["average_temperature"])
-                morning_r.append(entry["probability_of_rain"])
+                morning_temperature.append(entry["average_temperature"])
+                morning_rain_probability.append(entry["probability_of_rain"])
             # collection afternoon period entries
             elif 12 <= entry_time.hour < 18:
-                afternoon_t.append(entry["average_temperature"])
-                afternoon_r.append(entry["probability_of_rain"])
+                afternoon_temperature.append(entry["average_temperature"])
+                afternoon_rain_probability.append(entry["probability_of_rain"])
 
         summary = {
             # if no morning data, report insufficient data
             "morning_average_temperature": (
                 "Insufficient forecast data"
-                if not morning_t
-                else round(sum(morning_t) / len(morning_t))
+                if not morning_temperature
+                else round(sum(morning_temperature) / len(morning_temperature))
             ),
             "morning_chance_of_rain": (
                 "Insufficient forecast data"
-                if not morning_r
-                else round(sum(morning_r) / len(morning_r), 2)
+                if not morning_rain_probability
+                else round(
+                    sum(morning_rain_probability) / len(morning_rain_probability), 2
+                )
             ),
             # if no afternoon data, report insufficient data
             "afternoon_average_temperature": (
                 "Insufficient forecast data"
-                if not afternoon_t
-                else round(sum(afternoon_t) / len(afternoon_t))
+                if not afternoon_temperature
+                else round(sum(afternoon_temperature) / len(afternoon_temperature))
             ),
             "afternoon_chance_of_rain": (
                 "Insufficient forecast data"
-                if not afternoon_r
-                else round(sum(afternoon_r) / len(afternoon_r), 2)
+                if not afternoon_rain_probability
+                else round(
+                    sum(afternoon_rain_probability) / len(afternoon_rain_probability), 2
+                )
             ),
             "high_temperature": max(all_t),
             "low_temperature": min(all_t),
