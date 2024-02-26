@@ -33,7 +33,9 @@ class DailyWeatherSummary:
 def summarize_forecast(data):
     summaries = {}
 
-    entries_grouped_by_day = group_entries_by_day(data)
+    weather_entries = parse_weather_entries(data)
+
+    entries_grouped_by_day = group_entries_by_day(weather_entries)
 
     # Process each day
     for day, entries in entries_grouped_by_day.items():
@@ -45,7 +47,7 @@ def summarize_forecast(data):
         all_t = [entry.get("average_temperature") for entry in entries]
 
         for entry in entries:
-            entry_time = get_datetime(entry)
+            entry_time = entry.get("date_time")
             # collect morning period entries
             if 6 <= entry_time.hour < 12:
                 morning_temperature.append(entry.get("average_temperature"))
@@ -112,7 +114,7 @@ def get_datetime(entry):
 def group_entries_by_day(data):
     entries_grouped_by_day = defaultdict(list)
     for entry in data:
-        entry_datetime = get_datetime(entry)
+        entry_datetime = entry.get("date_time")
         entry_date = entry_datetime.date()
         entries_grouped_by_day[entry_date].append(entry)
 
