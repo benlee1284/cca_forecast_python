@@ -4,17 +4,17 @@ from collections import defaultdict
 
 class WeatherEntry:
     def __init__(
-        self, date_: date, average_temperature: float, probability_of_rain: float
+        self, date_time: datetime, average_temperature: float, probability_of_rain: float
     ) -> None:
-        self.date_ = date_
+        self.date_time = date_time
         self.average_temperature = average_temperature
         self.probability_of_rain = probability_of_rain
 
     def is_morning(self) -> bool:
-        return 6 <= self.date_.hour < 12
+        return 6 <= self.date_time.hour < 12
 
     def is_afternoon(self) -> bool:
-        return 12 <= self.date_.hour < 18
+        return 12 <= self.date_time.hour < 18
 
 
 class DailyWeatherSummary:
