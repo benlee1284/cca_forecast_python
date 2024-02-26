@@ -38,7 +38,7 @@ def summarize_forecast(data):
         afternoon_temperature = []
         afternoon_rain_probability = []
 
-        all_t = [entry["average_temperature"] for entry in entries]
+        all_t = [entry.get("average_temperature") for entry in entries]
 
         for entry in entries:
             entry_time = get_datetime(entry)
